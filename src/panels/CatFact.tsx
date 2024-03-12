@@ -1,6 +1,6 @@
 import { FC, useRef, useState } from 'react';
 import {
-    Button,
+    Button, Cell,
     Div,
     Group,
     Header,
@@ -41,7 +41,7 @@ export const CatFact: FC<NavIdProps> = ({ id }) => {
             inputRef.current.value = data.fact;
             
             let firstSpace = data.fact.indexOf(" ");
-            firstSpace = firstSpace > 0 ? firstSpace : data.fact.slice(1).indexOf(" ");
+            firstSpace = firstSpace !== 0 ? firstSpace : data.fact.slice(1).indexOf(" ") + 1;
             inputRef.current.selectionStart = firstSpace;
             inputRef.current.selectionEnd = firstSpace;
             
@@ -74,13 +74,18 @@ export const CatFact: FC<NavIdProps> = ({ id }) => {
                         getRef={ inputRef }
                         type="text"
                         placeholder="А здесь мог быть интересный факт про котиков :("
-                        defaultValue=""
                         after={
                             <IconButton hoverMode="opacity" label="Очистить поле" onClick={ clear }>
                                 <Icon16Clear/>
                             </IconButton>
                         }
                     />
+                    
+                    <Spacing size={ 16 }/>
+                    { error
+                        ? <Cell>Error: "{ error.name }" with message: "{error.message}"</Cell>
+                        : <></>
+                    }
                 </Div>
             </Group>
         </Panel>
